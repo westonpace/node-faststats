@@ -580,30 +580,3 @@ Stats.prototype.μ=Stats.prototype.amean;
 
 
 exports.Stats = Stats;
-
-if(process.argv[1] && process.argv[1].match(__filename)) {
-	var s = new Stats({store_data:false, buckets: [ 1, 5, 10, 15, 20, 25, 30, 35 ]}).push(1, 2, 3);
-	var l = process.argv.slice(2);
-	if(!l.length) l = [10, 11, 15, 8, 13, 12, 19, 32, 17, 16];
-	l.forEach(function(e, i, a) { a[i] = parseFloat(e, 10); });
-	Stats.prototype.push.apply(s, l);
-	console.log(s.data);
-	console.log(s.amean().toFixed(2), s.μ().toFixed(2), s.stddev().toFixed(2), s.σ().toFixed(2), s.gmean().toFixed(2), s.median().toFixed(2), s.moe().toFixed(2), s.distribution());
-	var t=s.copy({buckets: [0, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 25, 30, 35] });
-	console.log(t.amean().toFixed(2), t.μ().toFixed(2), t.stddev().toFixed(2), t.σ().toFixed(2), t.gmean().toFixed(2), t.median().toFixed(2), t.moe().toFixed(2), t.distribution());
-
-	s = new Stats({store_data: false, buckets: [1, 5, 10, 15, 20, 25, 30, 35]});
-	s.push_tuple([1, 1, 3, 4]);
-	s.push_tuple([2, 1, 5, 8]);
-	s.push_tuple([3, 1, 4, 9]);
-	s.push_tuple([1, 1, 13, 14]);
-
-	console.log(s.amean(), s.median());
-	console.log(s.distribution());
-
-	s.remove_tuple([1, 1, 3, 4]);
-	s.push_tuple([4, 1, 3, 3]);
-	console.log(s.amean(), s.median());
-	console.log(s.distribution());
-
-}
